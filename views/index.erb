@@ -83,10 +83,10 @@
 
      function load_next_image() {
         window.context.clearRect ( 0 , 0 , 400 , 400 );
-        if(window.flickr_images.length == (window.image_key))
+        if(window.flickr_images.length == (window.image_key) || (window.time_up == true))
         {
-          alert("Game over Bobski! you scored "+$(".score").html() + " points");
-          window.location = "/";
+            alert("Game over Bobski! you scored "+$(".score").html() + " points");
+            window.location = "/";
         }
         var img=new Image();
         window.image_key += 1;
@@ -165,7 +165,7 @@
 <body>
    <div class="container">
      <h1 align="center">Cut the Picture</h2>
-     <address>Swipe your finger on the trackpad to cut</address>
+     <address>Swipe your finger on the trackpad, in the direction of the red line to cut</address>
       <div class="details">
        <span class="timer-wrapper">Time: <span class="timer">25</span></span>
        <span class="score-wrapper">Score: <span class="score">0</span></span>
