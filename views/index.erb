@@ -60,6 +60,8 @@
   </style>
   <script>
     $(document).ready(function(){
+      window.flickr_images = [<%= @images %>];
+      window.image_key = -1;
       window.score = 0;
       window.start_position = null;
       window.started_movement = false;
@@ -67,6 +69,28 @@
       var paper = document.getElementById('paper');
       window.context = paper.getContext("2d");
 
+
+     function load_next_image() {
+        window.context.clearRect ( 0 , 0 , 400 , 400 );
+        if(window.flickr_images.length == (window.image_key - 1))
+        {
+          console.log("you win");
+        }
+        var img=new Image();
+        img.src=window.flickr_images[window.image_key+1];
+        img.onload = function() { 
+          context.drawImage(img,0,0);
+          window.image_loaded = true;
+          context.strokeStyle="#FF0000";
+          context.beginPath();
+          var line = new_line();
+          context.moveTo(line[0], line[1]);
+          context.lineTo(line[2], line[3]);
+          context.lineWidth = '10';
+          context.closePath();
+          context.stroke();
+        };
+     }
 
      function correct_angle(x, y) {
         var line1 = window.start_line;
@@ -80,7 +104,6 @@
 
 
       $(document).mousemove(function(e){
-
         if(window.image_loaded==true){
           if(window.start_position == null)
             window.start_position = [e.pageX, e.pageY];
@@ -102,7 +125,7 @@
             window.image_loaded   = false;
             window.start_position = null;
 
-            window.context.clearRect ( 0 , 0 , 400 , 400 );
+            load_next_image();
             return;
             // load another image
           }
@@ -115,20 +138,7 @@
         return window.start_line;
       }
 
-      var img=new Image();
-      img.src="i.jpg";
-      img.onload = function() { 
-        context.drawImage(img,0,0);
-        window.image_loaded = true;
-        context.strokeStyle="#FF0000";
-        context.beginPath();
-        var line = new_line();
-        context.moveTo(line[0], line[1]);
-        context.lineTo(line[2], line[3]);
-        context.lineWidth = '10';
-        context.closePath();
-        context.stroke();
-      };
+      load_next_image();
 
 
       /*
