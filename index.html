@@ -1,0 +1,158 @@
+<html>
+<head>
+  <title>Cut the Picture</title>
+  <script src="jquery.js"></script>
+  <style>
+    body {
+      margin: 0 auto;
+      font-family: arial;
+    }
+
+    .container {
+      margin: 0 auto;
+      width: 450px;
+    }
+
+
+    .details {
+      margin-bottom: 20px;
+      margin-left: 135px;
+    }
+
+    .timer-wrapper {
+      background: #F5B800;
+      border-radius: 3px;
+      padding: 5px;
+      color: #fff;
+    }
+
+    .timer {
+      font-weight: bold;
+    }
+
+    .score {
+      font-weight: bold;
+      color: #FFF;
+    }
+
+    .score-wrapper {
+      background: #3DCC00;
+      color: #fff;
+      border-radius: 3px;
+      padding: 5px;
+    }
+
+    h2 {
+      text-decoration: underline;
+      margin-left: -20px;
+    }
+
+    canvas {
+      box-shadow: 0px 0px 5px #888;
+      border: 1px solid #DDD;
+      border-radius: 4px;
+    }
+
+    address {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    $(document).ready(function(){
+      window.score = 0;
+      window.start_position = null;
+      window.started_movement = false;
+
+      var paper = document.getElementById('paper');
+      window.context = paper.getContext("2d");
+
+
+     function correct_angle(x, y) {
+        var line1 = window.start_line;
+        var line2 = [window.start_position[0], window.start_position[1], x, y];
+        var slope1 = (line1[1] - line1[3]) / (line1[0] - line1[2]);
+        var slope2 = (line2[1] - line2[3]) / (line2[0] - line2[2]);
+        var angle = Math.atan((slope1 - slope2) / (1 - (slope1 * slope2)));
+        if (angle < 40) return true;
+        return false;
+     }
+
+
+      $(document).mousemove(function(e){
+
+        if(window.image_loaded==true){
+          if(window.start_position == null)
+            window.start_position = [e.pageX, e.pageY];
+
+          console.log((Math.abs(window.start_position[0] - e.pageX)));
+
+          if((Math.abs(window.start_position[0] - e.pageX) > 50) && Math.abs(window.start_position[1] - e.pageY) > 50)
+          {
+            if(correct_angle(e.pageX, e.pageY)==true)
+            {
+              window.score = window.score + 1;
+              $(".score").html(window.score);
+              console.log("correct angle", window.score);
+            }
+            else {
+              console.log("wrong angle");
+            }
+
+            window.image_loaded   = false;
+            window.start_position = null;
+
+            window.context.clearRect ( 0 , 0 , 400 , 400 );
+            return;
+            // load another image
+          }
+          
+        }
+      });
+
+      function new_line(){
+        window.start_line = [0, Math.round(Math.random()*400), 399, Math.round(Math.random()*400)];
+        return window.start_line;
+      }
+
+      var img=new Image();
+      img.src="i.jpg";
+      img.onload = function() { 
+        context.drawImage(img,0,0);
+        window.image_loaded = true;
+        context.strokeStyle="#FF0000";
+        context.beginPath();
+        var line = new_line();
+        context.moveTo(line[0], line[1]);
+        context.lineTo(line[2], line[3]);
+        context.lineWidth = '10';
+        context.closePath();
+        context.stroke();
+      };
+
+
+      /*
+      window.paper = Raphael(10, 50, 400, 400);
+      paper.image("i.jpg", 10, 10, 400, 400);
+
+      function random_path() {
+        "M0," + Math.round(Math.random()*400) + "L399," + Math.round(Math.random()*400);
+      }
+
+      var line = paper.path(random_path()).attr({stroke: "red"});
+      */
+    });
+  </script>
+</head>
+<body>
+   <div class="container">
+     <h1 align="center">Cut the Picture</h2>
+     <address>Swipe your finger on the trackpad to cut</address>
+      <div class="details">
+       <span class="timer-wrapper">Time: <span class="timer">25</span></span>
+       <span class="score-wrapper">Score: <span class="score">0</span></span>
+      </div>
+     <canvas id="paper" width="400" height="400"></canvas>
+   </div>
+</body>
+</html>
