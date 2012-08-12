@@ -57,6 +57,8 @@
       margin-bottom: 10px;
       text-align: center;
     }
+
+    footer {bottom: 0px;}
   </style>
   <script>
     $(document).ready(function(){
@@ -83,14 +85,14 @@
         window.context.clearRect ( 0 , 0 , 400 , 400 );
         if(window.flickr_images.length == (window.image_key))
         {
-          alert("Game over Bobski! you scored "+$(".score").html() + "points");
+          alert("Game over Bobski! you scored "+$(".score").html() + " points");
           window.location = "/";
         }
         var img=new Image();
         window.image_key += 1;
         if(window.flickr_images[window.image_key] == undefined)
         {
-            alert("Game over Bobski! you scored "+$(".score").html() + "points");
+            alert("Game over Bobski! you scored "+$(".score").html() + " points");
             window.location = "/";
         }
 
@@ -169,6 +171,10 @@
        <span class="score-wrapper">Score: <span class="score">0</span></span>
       </div>
      <canvas id="paper" width="400" height="400"></canvas>
+     <footer>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-text="Checkout &quot;Cut the Picture&quot; simple 2hr crappy hack on #openhackindia2012" data-via="HashNuke" data-hashtags="CutThePicture">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+     </footer>
    </div>
 </body>
 </html>
