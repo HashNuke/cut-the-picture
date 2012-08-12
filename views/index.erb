@@ -60,16 +60,14 @@
   </style>
   <script>
     $(document).ready(function(){
-
   
-          window.time_up = false;
-          window.updateTime = function() {
-              if (window.time_up == true) return(true);
-              if (parseInt($(".timer").html(), 10) == 1) window.time_up = true;
-              $(".timer").html(parseInt($(".timer").html(), 10) - 1);
-
-          }
-         window.setInterval('updateTime()', 1000);​
+      window.time_up = false;
+      window.updateTime = function() {
+        if (window.time_up == true) return(true);
+        if (parseInt($(".timer").html(), 10) == 1) window.time_up = true;
+        $(".timer").html(parseInt($(".timer").html(), 10) - 1);
+      }
+      window.setInterval("updateTime()",1000);
 
       window.flickr_images = [<%= @images %>];
       window.image_key = -1;
@@ -85,11 +83,18 @@
         window.context.clearRect ( 0 , 0 , 400 , 400 );
         if(window.flickr_images.length == (window.image_key))
         {
-          console.log("you win");
+          alert("Game over Bobski! you scored "+$(".score").html() + "points");
+          window.location = "/";
         }
         var img=new Image();
         window.image_key += 1;
-        img.src=window.flickr_images[window.image_key+1];
+        if(window.flickr_images[window.image_key] == undefined)
+        {
+            alert("Game over Bobski! you scored "+$(".score").html() + "points");
+            window.location = "/";
+        }
+
+        img.src=window.flickr_images[window.image_key];
         img.onload = function() { 
           context.drawImage(img,0,0);
           window.image_loaded = true;
@@ -110,7 +115,7 @@
         var slope1 = (line1[1] - line1[3]) / (line1[0] - line1[2]);
         var slope2 = (line2[1] - line2[3]) / (line2[0] - line2[2]);
         var angle = Math.atan((slope1 - slope2) / (1 - (slope1 * slope2)));
-        if (angle < 40) return true;
+        if (Math.abs(angle) < 0.3) return true;
         return false;
      }
 
@@ -152,17 +157,6 @@
 
       load_next_image();
 
-
-      /*
-      window.paper = Raphael(10, 50, 400, 400);
-      paper.image("i.jpg", 10, 10, 400, 400);
-
-      function random_path() {
-        "M0," + Math.round(Math.random()*400) + "L399," + Math.round(Math.random()*400);
-      }
-
-      var line = paper.path(random_path()).attr({stroke: "red"});
-      */
     });
   </script>
 </head>

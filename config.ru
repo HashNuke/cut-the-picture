@@ -20,4 +20,8 @@ get '/jquery.js' do
   erb :jquery
 end
 
+get '/loader.gif' do
+  erb :loader
+end
+
 run Sinatra::Application
