@@ -72,11 +72,12 @@
 
      function load_next_image() {
         window.context.clearRect ( 0 , 0 , 400 , 400 );
-        if(window.flickr_images.length == (window.image_key - 1))
+        if(window.flickr_images.length == (window.image_key))
         {
           console.log("you win");
         }
         var img=new Image();
+        window.image_key += 1;
         img.src=window.flickr_images[window.image_key+1];
         img.onload = function() { 
           context.drawImage(img,0,0);
