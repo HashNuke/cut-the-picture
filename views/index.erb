@@ -63,13 +63,13 @@
 
   
           window.time_up = false;
-          var updateTime = function() {
+          window.updateTime = function() {
               if (window.time_up == true) return(true);
-              if (parseInt($("span").html(), 10) == 1) window.time_up = true;
-              $("span").html(parseInt($("span").html(), 10) - 1);
+              if (parseInt($(".timer").html(), 10) == 1) window.time_up = true;
+              $(".timer").html(parseInt($(".timer").html(), 10) - 1);
 
           }
-         setInterval(updateTime, 1000);​
+         window.setInterval('updateTime()', 1000);​
 
       window.flickr_images = [<%= @images %>];
       window.image_key = -1;
